@@ -1,6 +1,7 @@
 from djongo import models
 
 class User(models.Model):
+    id = models.ObjectIdField(primary_key=True)
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
@@ -11,6 +12,7 @@ class User(models.Model):
         return self.username
 
 class Team(models.Model):
+    id = models.ObjectIdField(primary_key=True)
     name = models.CharField(max_length=100, unique=True)
     members = models.ArrayReferenceField(to=User)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -18,6 +20,7 @@ class Team(models.Model):
         return self.name
 
 class Activity(models.Model):
+    id = models.ObjectIdField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     activity_type = models.CharField(max_length=50)
     duration = models.IntegerField()  # minutes
@@ -27,6 +30,7 @@ class Activity(models.Model):
         return f"{self.user.username} - {self.activity_type}"
 
 class Workout(models.Model):
+    id = models.ObjectIdField(primary_key=True)
     name = models.CharField(max_length=100)
     description = models.TextField()
     difficulty = models.CharField(max_length=20)
@@ -35,6 +39,7 @@ class Workout(models.Model):
         return self.name
 
 class Leaderboard(models.Model):
+    id = models.ObjectIdField(primary_key=True)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     points = models.IntegerField(default=0)
     last_updated = models.DateTimeField(auto_now=True)
